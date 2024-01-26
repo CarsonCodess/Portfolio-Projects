@@ -10,14 +10,14 @@ pygame.mixer.init()
 #Player velocity slowly increase
 #Sound
 #Made screen fullscreen (Make it resizable when you can)
+#Made pause menu (Add a quit button and a main menu button)
 
 #To Do:
 #Fix fade screen, make sure to give Pix credit
 #Sprites (Images are made but now add it to game)
 #Make it lose sometimes randomly (more random gameplay)
 #Better Title Screen
-#Pause Screen
-#Maybe customizable items
+#Maybe customizable sprites
 
 #Screen -----------------------------------------------------------
 WIN = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
@@ -46,6 +46,7 @@ STAR_VEL = 6
 #Font ---------------------------------------------------------------
 FONT = pygame.font.SysFont("comicsans", 30)
 STARTFONT = pygame.font.SysFont("arialblack", 40)
+RESUMEFONT = pygame.font.SysFont("arialblack", 30)
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 #Draws stuff to the screen ------------------------------------------
@@ -112,6 +113,51 @@ def main(PLAYER_SCORE, ENEMY_SCORE, faded):
             if event.type == pygame.QUIT:
                 run = False
                 break
+
+            #Pause Screen
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    paused = True
+                    while paused == True:
+                        resume_text = RESUMEFONT.render(f"RESUME", 1, "white")
+
+                        mouse = pygame.mouse.get_pos() 
+
+                        bgmusic = pygame.mixer.Sound("Pong\\bgmusicbyPixonyoutube.wav")
+                        bgmusic.play(-1)
+
+                        while paused == True: 
+                            
+                            for event in pygame.event.get(): 
+                                
+                                if event.type == pygame.QUIT: 
+                                    pygame.quit() 
+                                    
+                                #checks if a mouse is clicked 
+                                if event.type == pygame.MOUSEBUTTONDOWN: 
+                                    
+                                    #if the mouse is clicked on the 
+                                    # button the game starts
+                                    if WIDTH/2.3 <= mouse[0] <= WIDTH/2.3+165 and HEIGHT/2 <= mouse[1] <= HEIGHT/2+60: 
+                                        bgmusic.fadeout(3000)
+                                        intensebgmusic = pygame.mixer.Sound("Pong\\intensemusicbyPixonyoutube.wav")
+                                        intensebgmusic.play(-1)
+                                        paused=False
+
+                            #Gets mouse position
+                            mouse = pygame.mouse.get_pos() 
+
+                            #Checks if the mouse is in the proper spot
+                            if WIDTH/2.3 <= mouse[0] <= WIDTH/2.3+165 and HEIGHT/2 <= mouse[1] <= HEIGHT/2+60: 
+                                pygame.draw.rect(WIN,"red",[WIDTH/2.3,HEIGHT/2,165,60]) 
+                            
+                            else: 
+                                pygame.draw.rect(WIN,"black",[WIDTH/2.3,HEIGHT/2,165,60]) 
+                            
+                            #Draws text on screen
+                            WIN.blit(resume_text, ((WIDTH/2.3)+10,HEIGHT/2)) 
+
+                            pygame.display.update()
 
         #Checks elapsed time to add to speedmult
         if (round(elapsed_time, 1)%10 == 0):
@@ -246,10 +292,10 @@ def startmenu():
 
         #Checks if the mouse is in the proper spot
         if WIDTH/2.3 <= mouse[0] <= WIDTH/2.3+165 and HEIGHT/2 <= mouse[1] <= HEIGHT/2+60: 
-            redrect = pygame.draw.rect(WIN,"red",[WIDTH/2.3,HEIGHT/2,165,60]) 
+            pygame.draw.rect(WIN,"red",[WIDTH/2.3,HEIGHT/2,165,60]) 
           
         else: 
-            blackrect = pygame.draw.rect(WIN,"black",[WIDTH/2.3,HEIGHT/2,165,60]) 
+            pygame.draw.rect(WIN,"black",[WIDTH/2.3,HEIGHT/2,165,60]) 
         
         #Draws text on screen
         WIN.blit(start_text, ((WIDTH/2.3)+10,HEIGHT/2)) 
