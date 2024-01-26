@@ -8,12 +8,12 @@ pygame.mixer.init()
 #Changed:
 #Starting Screen
 #Player velocity slowly increase
-#Sound (Maybe lower hit and score sounds a little)
+#Sound
 #Made screen fullscreen (Make it resizable when you can)
 
 #To Do:
 #Fix fade screen, make sure to give Pix credit
-#Sprites (Images)
+#Sprites (Images are made but now add it to game)
 #Make it lose sometimes randomly (more random gameplay)
 #Better Title Screen
 #Pause Screen
@@ -31,20 +31,16 @@ BG = pygame.transform.scale(pygame.image.load("Pong\\bg.jpg"), (WIDTH, HEIGHT))
 PLAYER_SCORE = 0
 ENEMY_SCORE = 0
 
-#To use images as sprites maybe just something like
-#ENEMY = pygame.transform.scale(pygame.image.load("Pong\\enemy.jpg"), (ENEMY_WIDTH, ENEMY_HEIGHT))
-#idk search up a youtube video
-
 PLAYER_WIDTH, PLAYER_HEIGHT = 10, 75
-PLAYER_VEL = 6
+PLAYER_VEL = 7
 
 ENEMY_WIDTH, ENEMY_HEIGHT = 10, 75
-ENEMY_VEL = 6
+ENEMY_VEL = 7.5
 
 STAR_WIDTH = 15
 STAR_HEIGHT = 15
 STAR_RADIUS = 15
-STAR_VEL = 4
+STAR_VEL = 6
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 #Font ---------------------------------------------------------------
@@ -78,8 +74,10 @@ def main(PLAYER_SCORE, ENEMY_SCORE, faded):
     hitx = False
     hity = False
 
-    hitsound = pygame.mixer.Sound("Pong\\ballhitpaddle.wav")
-    scoresound = pygame.mixer.Sound("Pong\\ballscore.wav")
+    hitsound = (pygame.mixer.Sound("Pong\\ballhitpaddle.wav"))
+    scoresound = (pygame.mixer.Sound("Pong\\ballscore.wav"))
+    hitsound.set_volume(0.2)
+    scoresound.set_volume(0.2)
 
     player = pygame.Rect(WIDTH/12, HEIGHT/2, PLAYER_WIDTH, PLAYER_HEIGHT)
 
@@ -232,8 +230,9 @@ def startmenu():
                 # button the game starts
                 if WIDTH/2.3 <= mouse[0] <= WIDTH/2.3+165 and HEIGHT/2 <= mouse[1] <= HEIGHT/2+60: 
                     bgmusic.fadeout(3000)
+                    #Makes fade screen
                     while(fade_counter < WIN.get_width()):
-                        fade_counter += 5
+                        fade_counter += 4
                         print(fade_counter)
                         pygame.draw.rect(WIN, "black", (0, 0, fade_counter, WIN.get_height()))
                         pygame.display.update()
